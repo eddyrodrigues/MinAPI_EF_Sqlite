@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Blog.Models;
 
 namespace Data.Mapping{
-    public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+    public class RoleConfiguration : IEntityTypeConfiguration<Role>
     {
-        public void Configure(EntityTypeBuilder<Category> builder)
+        public void Configure(EntityTypeBuilder<Role> builder)
         {
             builder.HasKey(t => t.Id);
 
@@ -16,14 +16,10 @@ namespace Data.Mapping{
                 .SetIdentityIncrement(1);
                 
 
-            builder.Property(t => t.Name)
+            builder.Property(t => t.Nome)
                 .HasColumnType("varchar")
                 .HasMaxLength(100);
 
-            builder.Property(t => t.Slug)
-                .HasColumnType("varchar")
-                .HasMaxLength(100);
-
-        }
+    }
     }
 }

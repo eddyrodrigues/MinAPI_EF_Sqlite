@@ -1,7 +1,9 @@
 using Data;
-using Models;
-using ViewModel;
+using Blog.Models;
+using Blog.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Todo.Controllers
 {
@@ -15,13 +17,19 @@ namespace Todo.Controllers
     /// </summary>
     /// <returns></returns>
     [HttpGet("/")]
-    public ActionResult<ResultViewModel<List<Category>>> get()
+    [Authorize(Roles = "Admin, Author")]
+    public ActionResult<ResultViewModel<List<UserViewModel>>> get()
     {
       using (var context = new BlogDbContext())
       {
-        List<Category> cats = context.Categories.ToList();
+        List<User> cats = context
+          .Users
+          .Include(x => x.Roles)
+          .ToList();
 
-        return Ok(new ResultViewModel<List<Category>>(cats));
+        List<UserViewModel> usrs = cats.Select(x => new UserViewModel { Id = x.Id, Nome = x.Nome, Roles = x.Roles.Select(r => new Role{ Id = r.Id, Nome = r.Nome}).ToList() }).ToList();
+
+        return Ok(new ResultViewModel<List<UserViewModel>>(usrs));
       }
     }
     /// <summary>
