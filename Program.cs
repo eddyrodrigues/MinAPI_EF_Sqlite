@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<BlogDbContext>();
-builder.Services.AddControllers();
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(opt => { opt.SuppressModelStateInvalidFilter = true; });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -28,7 +28,6 @@ builder.Services.AddAuthentication(x =>
         ValidateAudience = false
     };
 });
-
 
 builder.Services.AddTransient<TokenService>();
 

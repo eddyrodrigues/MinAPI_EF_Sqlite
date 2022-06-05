@@ -20,6 +20,14 @@ namespace Data.Mapping{
                 .HasColumnType("varchar")
                 .HasMaxLength(100);
 
+            builder.Property(t => t.Email)
+                .HasColumnType("varchar")
+                .HasMaxLength(100);
+
+            builder.Property(t => t.Password)
+                .HasColumnType("varchar")
+                .HasMaxLength(100);
+
       builder.HasMany(x => x.Roles)
         .WithMany(x => x.Users)
         .UsingEntity<Dictionary<string, object>>(
